@@ -10,6 +10,19 @@
         this.color = options.color ? options.color : "#FFF";
     };
     
+    MovingObject.prototype.hasFallenOffScreen = function (width, height) {
+        var leastX = this.posX;
+        var mostX = this.posX + (2 * this.radius);
+        
+        var leastY = this.posY;
+        var mostY = this.posY + (2 * this.radius);
+        
+        return mostX  < 0     ||
+               leastX > width ||
+               mostY  < 0     ||
+               leastY > height;
+    };
+    
     MovingObject.prototype.draw = function (ctx) {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
