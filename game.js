@@ -27,6 +27,23 @@
         }
     };
     
+    Game.prototype.bulletsHitAsteroid = function () {
+        var bulletsToRemove = [];
+        for (var i = 0; i < this.bullets.length; i++) {
+            for (var j = 0; j < this.asteroids.length; j++) {
+                if (this.bullets[i].isCollidedWith(this.asteroids[j])) {
+                    bulletsToRemove.push(i);
+                    this.asteroids.splice(j, 1);
+                    break;
+                }
+            }
+        }
+        
+        for (var k = 0; i < bulletsToRemove.lemgth; i++) {
+            this.bullets.splice(bulletsToRemove[k], 1);
+        }
+    };
+    
     Game.prototype.checkAsteroidFallenOffScreen = function () {
         var asteroidToBeRemoved = [];
         this.asteroids.forEach(function (asteroid, index) {
@@ -66,9 +83,9 @@
         window.addEventListener("resize", this.resize.bind(this), false);
         
         key("up", this.ship.power.bind(this.ship, 1));
-        key("left", this.ship.turn.bind(this.ship, -5));
+        key("left", this.ship.turn.bind(this.ship, -10));
         key("down", this.ship.power.bind(this.ship, -1));
-        key("right", this.ship.turn.bind(this.ship, 5));
+        key("right", this.ship.turn.bind(this.ship, 10));
         
         key("space", this.fireBullet.bind(this));
     };
@@ -99,6 +116,7 @@
     Game.prototype.step = function () {
         this.move();
         this.checkAsteroidFallenOffScreen();
+        this.bulletsHitAsteroid();
         this.draw();
         this.checkGameOver();
     };
