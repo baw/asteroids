@@ -11,6 +11,15 @@
     Ship.MAX_SPEED = 10;
     Ship.inherits(Asteroids.MovingObject);
     
+    Ship.prototype.fireBullet = function () {
+        var options = {
+            heading: this.heading,
+            pos: [this.posX, this.posY]
+        };
+        
+        return new Asteroids.Bullet(options);
+    };
+    
     Ship.prototype.power = function (impulse) {
         if (this.speed >= 1 && this.speed < Ship.MAX_SPEED) {
             this.speed += impulse;

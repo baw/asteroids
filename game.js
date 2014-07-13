@@ -6,6 +6,7 @@
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.asteroids = [];
+        this.bullets = [];
         
         this.resize();
         this.addAsteroids(30);
@@ -56,6 +57,9 @@
         this.asteroids.forEach(function (asteroid) {
             asteroid.draw(game.ctx);
         });
+        this.bullets.forEach(function (bullet) {
+            bullet.draw(game.ctx);
+        });
     };
     
     Game.prototype.eventBinder = function () {
@@ -65,14 +69,23 @@
         key("left", this.ship.turn.bind(this.ship, -5));
         key("down", this.ship.power.bind(this.ship, -1));
         key("right", this.ship.turn.bind(this.ship, 5));
+        
+        key("space", this.fireBullet.bind(this));
+    };
+    
+    Game.prototype.fireBullet = function () {
+        this.bullets.push(this.ship.fireBullet());
     };
     
     Game.prototype.move = function () {
+        this.ship.move();
+        
         this.asteroids.forEach(function (asteroid) {
             asteroid.move();
         });
-        
-        this.ship.move();
+        this.bullets.forEach(function (bullet) {
+            bullet.move();
+        });
     };
     
     Game.prototype.resize = function () {
