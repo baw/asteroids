@@ -27,12 +27,9 @@
         ctx.strokeStyle = this.color;
         ctx.beginPath();
         
-        var centerX = this.posX - (this.radius / 2);
-        var centerY = this.posY - (this.radius / 2);
-        
         ctx.arc(
-            centerX,
-            centerY,
+            this.posX,
+            this.posY,
             this.radius,
             0,
             2 * Math.PI,
@@ -48,11 +45,7 @@
             (Math.pow(this.posY - otherObject.posY, 2))
         );
         
-        if (distance < (this.radius + otherObject.radius)) {
-            return true;
-        } else {
-            return false;
-        }
+        return distance < (this.radius + otherObject.radius);
     };
     
     MovingObject.prototype.move = function () {

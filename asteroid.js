@@ -15,7 +15,7 @@
             pos: [],
             speed: 0,
             heading: 0
-        }
+        };
         
         options.pos[0] = Asteroids.randomNumber(0, dimX);
         options.pos[1] = Asteroids.randomNumber(0, dimY);
