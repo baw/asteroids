@@ -3,13 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Asteroids</title>
-</head>
-<body>
-  <canvas id="canvas"></canvas>
-
+  
+  <script src="./utilities.js"></script>
   <script src="./moving_object.js"></script>
   <script src="./asteroid.js"></script>
   <script src="./ship.js"></script>
   <script src="./game.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="700" height="400"></canvas>
+
+  <script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    
+    var game = new Asteroids.Game(ctx);
+    game.start();
+  </script>
 </body>
 </html>
