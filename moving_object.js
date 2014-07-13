@@ -10,7 +10,7 @@
         this.color = options.color ? options.color : "#FFF";
     };
     
-    MovingObject.draw = function (ctx) {
+    MovingObject.prototype.draw = function (ctx) {
         ctx.strokeStyle = this.color;
         ctx.beginPath();
         
@@ -29,7 +29,7 @@
         ctx.stroke();
     };
     
-    MovingObject.isCollidedWith = function (otherObject) {
+    MovingObject.prototype.isCollidedWith = function (otherObject) {
         var distance = Math.sqrt(
             (Math.pow(this.posX - otherObject.posX, 2)) +
             (Math.pow(this.posY - otherObject.posY, 2))
@@ -40,5 +40,13 @@
         } else {
             return false;
         }
+    };
+    
+    MovingObject.prototype.move = function () {
+        var disX = this.speed * Math.cos(this.heading * (Math.PI / 180));
+        var disY = this.speed * Math.sin(this.heading * (Math.PI / 180));
+        
+        this.posX += disX;
+        this.posY += disY;
     };
 })(this);
