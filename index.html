@@ -6,6 +6,8 @@
   
   <link rel="stylesheet" href="./styles.css" media="screen">
   
+  <script src="./lib/keymaster.js"></script>
+  
   <script src="./utilities.js"></script>
   <script src="./moving_object.js"></script>
   <script src="./asteroid.js"></script>
@@ -17,9 +19,8 @@
 
   <script>
     var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
     
-    var game = new Asteroids.Game(ctx);
+    var game = new Asteroids.Game(canvas);
     game.start();
   </script>
 </body>

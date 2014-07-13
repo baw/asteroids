@@ -1,10 +1,18 @@
+/*global key */
+
 (function (root) {
     var Asteroids = root.Asteroids = (root.Asteroids || {});
-    var Game = Asteroids.Game = function (ctx) {
-        this.ctx = ctx;
+    var Game = Asteroids.Game = function (canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext("2d");
         this.asteroids = [];
         
+        this.resize();
         this.addAsteroids(30);
+        var shipOptions = {
+            pos: [Game.DIM_X / 2, Game.DIM_Y / 2]
+        };
+        this.ship = new Asteroids.Ship(shipOptions);
     };
     Game.DIM_X = 700;
     Game.DIM_Y = 400;
@@ -13,14 +21,36 @@
     Game.prototype.addAsteroids = function (numAsteroids) {
         for (var i = 0; i < numAsteroids; i++) {
             var asteroid = Asteroids.Asteroid.randomAsteriod(Game.DIM_X,
-                                                             Game.DIM_Y)
+                                                             Game.DIM_Y);
             this.asteroids.push(asteroid);
-            console.log(asteroid);
+        }
+    };
+    
+    Game.prototype.checkAsteroidFallenOffScreen = function () {
+        var asteroidToBeRemoved = [];
+        this.asteroids.forEach(function (asteroid, index) {
+            if (asteroid.hasFallenOffScreen(Game.DIM_X, Game.DIM_Y)) {
+                asteroidToBeRemoved.push(index);
+            }
+        });
+        
+        var game = this;
+        asteroidToBeRemoved.forEach(function (indexValue) {
+            game.asteroids.splice(indexValue, 1);
+        });
+    };
+    
+    Game.prototype.checkGameOver = function () {
+        if (this.shipHasCollidedWithAsteroid() ||
+            this.ship.hasFallenOffScreen(Game.DIM_X, Game.DIM_Y)) {
+            this.stop();
         }
     };
     
     Game.prototype.draw = function () {
         this.ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+        
+        this.ship.draw(this.ctx);
         
         var game = this;
         this.asteroids.forEach(function (asteroid) {
@@ -28,18 +58,55 @@
         });
     };
     
+    Game.prototype.eventBinder = function () {
+        window.addEventListener("resize", this.resize.bind(this), false);
+        
+        key("up", this.ship.power.bind(this.ship, 1));
+        key("left", this.ship.turn.bind(this.ship, -5));
+        key("down", this.ship.power.bind(this.ship, -1));
+        key("right", this.ship.turn.bind(this.ship, 5));
+    };
+    
     Game.prototype.move = function () {
         this.asteroids.forEach(function (asteroid) {
             asteroid.move();
         });
+        
+        this.ship.move();
+    };
+    
+    Game.prototype.resize = function () {
+        this.canvas.width = this.canvas.offsetWidth;
+        this.canvas.height = this.canvas.offsetHeight;
+        
+        Game.DIM_X = this.canvas.width;
+        Game.DIM_Y = this.canvas.height;
     };
     
     Game.prototype.step = function () {
         this.move();
+        this.checkAsteroidFallenOffScreen();
         this.draw();
+        this.checkGameOver();
+    };
+    
+    Game.prototype.shipHasCollidedWithAsteroid = function () {
+        var game = this;
+        for (var i = 0; i < this.asteroids.length; i++) {
+            if (this.asteroids[i].isCollidedWith(game.ship)) {
+                return true;
+            }
+        }
+        
+        return false;
     };
     
     Game.prototype.start = function () {
+        this.eventBinder();
         this.interval = setInterval(this.step.bind(this), Game.FPS);
+    };
+    
+    Game.prototype.stop = function () {
+        clearInterval(this.interval);
     };
 })(this);
