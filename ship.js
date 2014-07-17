@@ -6,10 +6,29 @@
         
         Asteroids.MovingObject.call(this, options);
     };
-    Ship.RADIUS = 5;
     Ship.COLOR = "#00F";
     Ship.MAX_SPEED = 10;
     Ship.inherits(Asteroids.MovingObject);
+    Ship.Shape = [[0,-8],[0,8],[16,0]];
+    
+    Ship.prototype.draw = function (ctx) {
+        ctx.save();
+        ctx.strokeStyle = Ship.COLOR;
+        
+        ctx.translate(this.posX, this.posY);
+        ctx.rotate(this.heading * Math.PI/180);
+        
+        ctx.beginPath();
+        
+        ctx.moveTo(Ship.Shape[0][0], Ship.Shape[0][1]);
+        ctx.lineTo(Ship.Shape[1][0], Ship.Shape[1][1]);
+        ctx.lineTo(Ship.Shape[2][0], Ship.Shape[2][1]);
+        
+        ctx.closePath();
+        
+        ctx.stroke();
+        ctx.restore();
+    };
     
     Ship.prototype.fireBullet = function () {
         var options = {

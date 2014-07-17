@@ -6,7 +6,7 @@
         
         this.speed = options.speed ? options.speed : 0;
         this.heading = options.heading ? options.heading : 0;
-        this.radius = options.radius ? options.radius : "10";
+        this.radius = options.radius ? options.radius : 10;
         this.color = options.color ? options.color : "#FFF";
     };
     
