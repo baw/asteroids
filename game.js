@@ -10,11 +10,11 @@
         this.score = 0;
         
         this.resize();
-        this.addAsteroids(30);
         var shipOptions = {
             pos: [Game.DIM_X / 2, Game.DIM_Y / 2]
         };
         this.ship = new Asteroids.Ship(shipOptions);
+        this.addAsteroids(30);
     };
     Game.DIM_X = 700;
     Game.DIM_Y = 400;
@@ -23,7 +23,9 @@
     Game.prototype.addAsteroids = function (numAsteroids) {
         for (var i = 0; i < numAsteroids; i++) {
             var asteroid = Asteroids.Asteroid.randomAsteriod(Game.DIM_X,
-                                                             Game.DIM_Y);
+                                                             Game.DIM_Y,
+                                                             this.ship.posX,
+                                                             this.ship.posY);
             this.asteroids.push(asteroid);
         }
     };

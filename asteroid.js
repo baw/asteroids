@@ -10,15 +10,23 @@
     Asteroid.RADIUS = 15;
     Asteroid.inherits(Asteroids.MovingObject);
     
-    Asteroid.randomAsteriod = function (dimX, dimY) {
+    Asteroid.randomAsteriod = function (dimX, dimY, shipX, shipY) {
         var options = {
             pos: [],
             speed: 0,
             heading: 0
         };
         
-        options.pos[0] = Asteroids.randomNumber(0, dimX);
-        options.pos[1] = Asteroids.randomNumber(0, dimY);
+        var asteroidTooCloseToShip = function () {
+            return Asteroids.withinDistance(options.pos[0], shipX, 50) ||
+                   Asteroids.withinDistance(options.pos[1], shipY, 50);
+        };
+        
+        do {
+            console.log("Asteroid");
+            options.pos[0] = Asteroids.randomNumber(0, dimX);
+            options.pos[1] = Asteroids.randomNumber(0, dimY);
+        } while (asteroidTooCloseToShip());
         
         options.speed = Asteroids.randomNumber(1, 4);
         options.heading = Asteroids.randomNumber(0, 360);
