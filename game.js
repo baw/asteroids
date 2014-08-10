@@ -7,6 +7,7 @@
         this.ctx = canvas.getContext("2d");
         this.asteroids = [];
         this.bullets = [];
+        this.numAsteroids = 30;
         this.score = 0;
         
         this.resize();
@@ -14,7 +15,7 @@
             pos: [Game.DIM_X / 2, Game.DIM_Y / 2]
         };
         this.ship = new Asteroids.Ship(shipOptions);
-        this.addAsteroids(30);
+        this.addAsteroids(this.numAsteroids);
     };
     Game.DIM_X = 700;
     Game.DIM_Y = 400;
@@ -89,6 +90,13 @@
         });
     };
     
+    Game.prototype.ensureEnoughAsteroids = function () {
+        var numOfNewAsteroids = this.numAsteroids - this.asteroids.length
+        if (numOfNewAsteroids > 0) {
+          this.addAsteroids(numOfNewAsteroids);
+        }
+    };
+      
     Game.prototype.eventBinder = function () {
         window.addEventListener("resize", this.resize.bind(this), false);
         
@@ -127,6 +135,7 @@
         this.move();
         this.checkAsteroidFallenOffScreen();
         this.bulletsHitAsteroid();
+        this.ensureEnoughAsteroids();
         this.draw();
         this.checkGameOver();
     };
