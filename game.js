@@ -7,6 +7,7 @@
         this.ctx = canvas.getContext("2d");
         this.asteroids = [];
         this.bullets = [];
+        this.score = 0;
         
         this.resize();
         this.addAsteroids(30);
@@ -34,6 +35,9 @@
                 if (this.bullets[i].isCollidedWith(this.asteroids[j])) {
                     bulletsToRemove.push(i);
                     this.asteroids.splice(j, 1);
+                    
+                    this.score += 10;
+                    
                     break;
                 }
             }
@@ -67,6 +71,10 @@
     
     Game.prototype.draw = function () {
         this.ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+        
+        this.ctx.fillStyle = "#fff";
+        this.ctx.font = "20px Helvetica";
+        this.ctx.fillText(this.score, 10, 20);
         
         this.ship.draw(this.ctx);
         
