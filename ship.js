@@ -6,7 +6,7 @@
         
         Asteroids.MovingObject.call(this, options);
     };
-    Ship.COLOR = "#00F";
+    Ship.COLOR = "#0F0";
     Ship.MAX_SPEED = 10;
     Ship.inherits(Asteroids.MovingObject);
     Ship.Shape = [[0,-8],[0,8],[16,0]];
