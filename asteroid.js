@@ -23,7 +23,6 @@
         };
         
         do {
-            console.log("Asteroid");
             options.pos[0] = Asteroids.randomNumber(0, dimX);
             options.pos[1] = Asteroids.randomNumber(0, dimY);
         } while (asteroidTooCloseToShip());
