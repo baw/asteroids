@@ -6,6 +6,6 @@
 }
 
 #canvas {
-    background-image: url(images/space.jpg);
+    background-image: url(../images/space.jpg);
     display: block;
 }
